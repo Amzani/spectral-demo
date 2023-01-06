@@ -1,0 +1,26 @@
+extends:
+  - ./spectral-3.yaml
+
+functionsDir: ./functions/
+
+functions:
+  - serviceTierShouldBeValid
+
+rules:
+  backmarket-ensure-every-endpoint-has-a-service-tier:
+      description: Ensures every endpoint has a service tier
+      given: $.paths.*[get,put,post,delete,options,head,patch,trace]
+      severity: error
+      message: "{{error}}"
+      then:
+        field: "x-tier"
+        function: truthy
+
+  backmarket-ensure-service-tier:
+    description: Ensure an x-tier value is valid
+    given: $..*[x-tier]
+    severity: error
+    recommended: true
+    message: "{{error}}"
+    then:
+      function: serviceTierShouldBeValid

@@ -1,0 +1,11 @@
+extends:
+  - ./spectral-2.yaml
+rules:
+  ensure-kebab-case-in-uris:
+    message: "Path must be lowercase and delimited by a hyphen or concatenated"
+    severity: error
+    given: "$.paths[*]~"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^(?:\/(?:[a-z]+(?:-[a-z]+|)+|\\{[a-zA-Z]+\\}))+$"
